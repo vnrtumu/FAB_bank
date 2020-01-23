@@ -1,5 +1,5 @@
 <?php
-
+// use Illuminate\Routing\Route;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -11,6 +11,23 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
+
+
+Route::get('/', 'MerchantController@index')->name('index');
+Route::get('/display', 'MerchantController@display')->name('display');
+Route::post('/store', 'MerchantController@store')->name('store');
+Route::get('/singleMerchant/{MerchantDetails}', 'MerchantController@show')->name('singleMerchant');
+Route::get('/merchantEdit/{MerchantDetails}/edit', 'MerchantController@edit')->name('merchantEdit');
+Route::patch('/update/{MerchantDetails}', 'MerchantController@update')->name('update');
+
+
+
+
+
+
+
+
