@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::get('displayAllMerchants', 'Api\MerchantController@displayAllMerchants');
+Route::post('import', 'Api\MerchantController@import');
+Route::post('showSingleMerchant', 'Api\MerchantController@showSingleMerchant');
+Route::post('updateMerchantDetails', 'Api\MerchantController@updateMerchantDetails');

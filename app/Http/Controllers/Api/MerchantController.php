@@ -1,9 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 
 use App\Merchant;
-use Illuminate\Http\Request;
 use App\Imports\MerchantImport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\DB;
@@ -12,20 +14,16 @@ use App\Imports\MerchantDetailImport;
 
 class MerchantController extends Controller
 {
-    public function index()
-    {
-        return view('index');
-    }
-
-    public function display()
+    public function displayAllMerchants()
     {
         $merchants = DB::table('merchant_details')
-                    ->select('merchant_details.*',)
+                    ->select('merchant_details.*')
                     ->get();
-        return view('display', compact('merchants'));
+        return response()->json(['success' => $merchants]);
     }
 
-    public function store(Request $request)
+
+    public function import(Request $request)
     {
         $file = $request->file('select_file');
         $merchants = Excel::toArray(new MerchantImport, $file);
@@ -44,7 +42,6 @@ class MerchantController extends Controller
                         'merchant_name' => $row[$i]['merchant_name']
                     ]);
                 }
-
                 $duplicateDetails =  DB::table('merchant_details')
                             ->where( 'merchant_name', 'LIKE', '%'.$row[$i]['merchant_name'].'%' )
                             ->get();
@@ -57,44 +54,39 @@ class MerchantController extends Controller
                 }
             }
         }
-        return redirect(route('display'));
+        return response()->json(['success' => "Data Updated SuccessFully", 'logdata' => $logArray]);
     }
 
-    public function show(MerchantDetails $MerchantDetails)
+
+    public function showSingleMerchant(Request $request)
     {
         $merchants = DB::table('merchant_details')
-            ->where('merchant_details.id', '=', $MerchantDetails->id)
+            ->where('merchant_details.id', '=', $request->merchant_id)
             ->get();
-        return view('singleMerchant', compact('merchants'));
+        $merchants[0]->path = "";
+        return response()->json(['success' => $merchants]);
     }
 
-    public function edit(MerchantDetails $MerchantDetails)
+    public function updateMerchantDetails(Request $request)
     {
-        return view('merchantEdit', compact('MerchantDetails'));
-    }
-
-    public function update(Request $request, MerchantDetails $MerchantDetails)
-    {
-        $merchantInput  = $request->except('icon', '_token', '_method');
-        $image = $request->icon;
-        if (!$image) {
+        $merchantInput  = $request->except('icon_logo');
+        $image = $request->icon_logo;
+        if (strlen($image ) < 600) {
             $departmentInput['icon_logo'] = $request->icon_logo;
         } else {
             $merchantInput  = $request->except('icon', '_token', '_method');
             $image = $request->icon;
             if ($image) {
-                $name = time() . '.' . $image->getClientOriginalExtension();
-                $destinationPath = public_path('/images/icons');
-                $image->move($destinationPath, $name);
-                $merchantInput['icon_logo'] = $name;
+                $image = str_replace('data:image/png;base64,', '', $image);
+                $image = str_replace(' ', '+', $image);
+                $imageName = rand(0,1000).time().'.png';
+                \File::put(public_path('images/icons'). '/' . $imageName, base64_decode($image));
+                $merchantInput['icon_logo'] = $imageName;
             }
         }
-        MerchantDetails::where('id', '=', $MerchantDetails->id)->update($merchantInput);
-        return redirect(route('display'));
+        MerchantDetails::where('id', '=', $request->id)->update($merchantInput);
+        return response()->json(['success' => "Data Updated SuccessFully"]);
     }
 
-    public function logdata()
-    {
-        return view('logdata');
-    }
+
 }

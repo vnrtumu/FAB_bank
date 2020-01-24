@@ -1,7 +1,19 @@
 @extends('layout')
 
 @section('main-container')
-
+<!-- Page header -->
+<div class="page-header">
+    <div class="breadcrumb-line breadcrumb-line-light header-elements-md-inline">
+        <div class="d-flex">
+            <div class="breadcrumb">
+                <a href="index.html" class="breadcrumb-item"><i class="icon-home2 mr-2"></i> Home</a>
+                <span class="breadcrumb-item active">Dashboard</span>
+            </div>
+            <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
+        </div>
+    </div>
+</div>
+<!-- /page header -->
 
 <div class="page-content pt-0">
 		<!-- Main content -->
@@ -101,7 +113,10 @@
                                         <td><div class="d-flex align-items-center">
                                             <a href="#" class="text-default font-weight-semibold letter-icon-title"> Icon/Logo   </a>
                                         </div></td>
-                                        <td><div class="font-weight-semibold">{{ $merchant->icon_logo}}</div></td>
+                                        <td><div class="font-weight-semibold">
+                                            <img src="{{ asset('images/icons/'.$merchant->icon_logo) }} " height="200" width="300">
+
+                                        </div></td>
                                     </tr>
                                     <tr>
                                         <td class="text-center"><h6 class="mb-0">12</h6></td>

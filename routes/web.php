@@ -24,7 +24,7 @@ Route::get('/singleMerchant/{MerchantDetails}', 'MerchantController@show')->name
 Route::get('/merchantEdit/{MerchantDetails}/edit', 'MerchantController@edit')->name('merchantEdit');
 Route::patch('/update/{MerchantDetails}', 'MerchantController@update')->name('update');
 
-
+Route::get('/logdata', 'MerchantController@logdata')->name('logdata');
 
 
 

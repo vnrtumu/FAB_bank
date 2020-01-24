@@ -26,44 +26,27 @@
 				<img src="{{ asset('global_assets/images/logo_light.png') }}" alt="">
 			</a>
 		</div>
-
 		<div class="d-md-none">
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-mobile">
 				<i class="icon-paragraph-justify3"></i>
 			</button>
 		</div>
-
 		<div class="collapse navbar-collapse" id="navbar-mobile">
 			<ul class="navbar-nav">
-                <li class="nav-item ">
-					<a href="{{ route('index') }}" class="navbar-nav-link  <?php  if(\Request::is('/')){ echo 'active'; } ?>">
-						<span>Dashboard</span>
-					</a>
-				</li>
-				<li class="nav-item">
+                <li class="nav-item">
 					<a href="{{ route('display') }}"  class="navbar-nav-link  <?php  if(\Request::is('display')){ echo 'active'; } ?>">
 						<span>Display The Data</span>
+					</a>
+				</li>
+                <li class="nav-item ">
+					<a href="{{ route('index') }}" class="navbar-nav-link  <?php  if(\Request::is('/')){ echo 'active'; } ?>">
+						<span>Add New Data</span>
 					</a>
 				</li>
 			</ul>
 		</div>
 	</div>
 	<!-- /main navbar -->
-
-
-	<!-- Page header -->
-	<div class="page-header">
-		<div class="breadcrumb-line breadcrumb-line-light header-elements-md-inline">
-			<div class="d-flex">
-				<div class="breadcrumb">
-					<a href="index.html" class="breadcrumb-item"><i class="icon-home2 mr-2"></i> Home</a>
-					<span class="breadcrumb-item active">Dashboard</span>
-				</div>
-				<a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
-			</div>
-		</div>
-	</div>
-	<!-- /page header -->
 
 
     @section('main-container')
