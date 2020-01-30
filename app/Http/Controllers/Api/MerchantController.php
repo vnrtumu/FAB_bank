@@ -47,10 +47,17 @@ class MerchantController extends Controller
                 $duplicateDetails =  DB::table('merchant_details')
                             ->where( 'merchant_name', 'LIKE', '%'.$row[$i]['merchant_name'].'%' )
                             ->get();
+<<<<<<< HEAD
                 if(count($duplicate) > 0){
                     for ($j = 0; $j < count($duplicateDetails); $j++) {
                         array_push($logArray2,  $duplicateDetails[$j]->merchant_name);
                     } 
+=======
+                if(count($duplicateDetails) > 0){
+                    for ($j = 0; $j < count($duplicateDetails); $j++) {
+                        array_push($logArray2,  $duplicateDetails[$j]->merchant_name);
+                    }
+>>>>>>> 61ed5df6b39050be62bd0dd328b5bce9b004852e
                 }else {
                     MerchantDetails::create([
                         'merchant_name' => $row[$i]['merchant_name']
