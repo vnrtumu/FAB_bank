@@ -9,6 +9,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\DB;
 use App\MerchantDetails;
 use App\Imports\MerchantDetailImport;
+use App\Exports\MerchantExport;
 
 class MerchantController extends Controller
 {
@@ -20,7 +21,7 @@ class MerchantController extends Controller
     public function display()
     {
         $merchants = DB::table('merchant_details')
-                    ->select('merchant_details.*',)
+                    ->select('merchant_details.*')
                     ->get();
         return view('display', compact('merchants'));
     }
@@ -93,8 +94,66 @@ class MerchantController extends Controller
         return redirect(route('display'));
     }
 
+    public function completeData()
+    {
+        return view('completeData');
+    }
+
+    public function importAllData(Request $request)
+    {
+        $file = $request->file('select_file');
+        $merchantDetailes  = Excel::toArray(new MerchantDetailImport, $file);
+        $logArray = [];
+        foreach ($merchantDetailes as $row) {
+            for ($i = 0; $i < count($row); $i++) {
+                $duplicateDetails =  DB::table('merchant_details')
+                            ->where( 'merchant_name', 'LIKE', '%'.$row[$i]['merchant_name'].'%' )
+                            ->get();
+                if(count($duplicateDetails) > 0){
+                    $updateDetails =  DB::table('merchant_details')
+                            ->where( 'merchant_name', 'LIKE', '%'.$row[$i]['merchant_name'].'%' )
+                            ->update([
+                                'floor'             => $row[$i]['floor'],
+                                'street_number'     => $row[$i]['street_number'], 
+                                'route'             => $row[$i]['route'], 
+                                'locality'          => $row[$i]['locality'], 
+                                'city'              => $row[$i]['city'],
+                                'state_emirate_code'=> $row[$i]['state_emirate_code'], 
+                                'country'           => $row[$i]['country'], 
+                                'postal_code'       => $row[$i]['postal_code'], 
+                                'address'           => $row[$i]['address'], 
+                                'icon_logo'         => $row[$i]['icon_logo'],
+                                'phone_number'      => $row[$i]['phone_number'], 
+                                'name'              => $row[$i]['name'], 
+                                'rating'            => $row[$i]['rating'], 
+                                'reviews'           => $row[$i]['reviews'], 
+                                'type'              => $row[$i]['type'], 
+                                'vicinity'          => $row[$i]['vicinity'], 
+                                'website'           => $row[$i]['website'], 
+                                'stock_price'       => $row[$i]['stock_price'], 
+                                'founded'           => $row[$i]['founded'], 
+                                'ceo'               => $row[$i]['ceo'], 
+                                'founders'          => $row[$i]['founders'], 
+                                'owned_by'          => $row[$i]['owned_by'], 
+                                'industry'          => $row[$i]['industry'], 
+                                'headquarters'      => $row[$i]['headquarters'], 
+                                'products'          => $row[$i]['products'], 
+                                'services'          => $row[$i]['services'], 
+                                'twitter_handle'    => $row[$i]['twitter_handle'],
+                            ]);
+                }
+            }
+        }
+        return redirect(route('display'));
+    }
+
     public function logdata()
     {
         return view('logdata');
+    }
+
+    public function exportExcel()
+    {
+        return  Excel::download(new MerchantExport, 'merchants.xlsx');
     }
 }

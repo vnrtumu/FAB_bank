@@ -25,6 +25,13 @@ Route::get('/merchantEdit/{MerchantDetails}/edit', 'MerchantController@edit')->n
 Route::patch('/update/{MerchantDetails}', 'MerchantController@update')->name('update');
 
 Route::get('/logdata', 'MerchantController@logdata')->name('logdata');
+Route::get('/completeData', 'MerchantController@completeData')->name('completeData');
+
+Route::post('/importAllData', 'MerchantController@importAllData')->name('importAllData');
+
+Route::get('/exportExcel', 'MerchantController@exportExcel')->name('exportExcel');
+
+
 
 
 

@@ -7,7 +7,7 @@
         <div class="d-flex">
             <div class="breadcrumb">
                 <a href="{{ route('display') }}" class="breadcrumb-item"><i class="icon-home2 mr-2"></i> Home</a>
-                <span class="breadcrumb-item active">Dashboard</span>
+                <span class="breadcrumb-item active">Complete Details Upload</span>
             </div>
             <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
         </div>
@@ -32,13 +32,13 @@
                         </div>
                         <div class="media-body">
                             <h6 class="media-title font-weight-semibold">
-                                <a href="#">Upload Excel File</a>
+                                <a href="#">Complete Detailed Excel File</a>
                             </h6>
-                            <form action="{{ route('store') }}" enctype="multipart/form-data" method="POST">
+                            <form action="{{ route('importAllData') }}" enctype="multipart/form-data" method="POST">
                                 @csrf
                                 <fieldset class="mb-3">
                                     <div class="form-group row">
-                                        <label class="col-form-label col-lg-2">Excel Document </label>
+                                        <label class="col-form-label col-lg-2">Complete Detailed Document </label>
                                         <div class="col-lg-10">
                                             <input type="file" name="select_file" id="select_file"  required />
                                         </div>

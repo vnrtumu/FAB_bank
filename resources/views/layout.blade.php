@@ -43,6 +43,11 @@
 						<span>Add New Data</span>
 					</a>
 				</li>
+				<li class="nav-item ">
+					<a href="{{ route('completeData') }}" class="navbar-nav-link  <?php  if(\Request::is('completeData')){ echo 'active'; } ?>">
+						<span>Complete Details Upload</span>
+					</a>
+				</li>
 			</ul>
 		</div>
 	</div>
