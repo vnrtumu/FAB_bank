@@ -37,7 +37,7 @@ class MerchantController extends Controller
                             ->get();
                 if(count($duplicate) > 0){
                     for ($j = 0; $j < count($duplicate); $j++) {
-                        array_push($logArray,  $duplicate[0]->merchant_name);
+                        array_push($logArray,  $duplicate[$j]->merchant_name);
                     }
                 }else {
                     Merchant::create([
@@ -49,7 +49,7 @@ class MerchantController extends Controller
                             ->get();
                 if(count($duplicateDetails) > 0){
                     for ($j = 0; $j < count($duplicateDetails); $j++) {
-                        array_push($logArray2,  $duplicateDetails[0]->merchant_name);
+                        array_push($logArray2,  $duplicateDetails[$j]->merchant_name);
                     }
                 }else {
                     MerchantDetails::create([
